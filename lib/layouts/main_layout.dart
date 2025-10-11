@@ -69,9 +69,7 @@ class MainLayout extends StatelessWidget {
                   destinations: appPagesRoutes
                       .map(
                         (r) => NavigationRailDestination(
-                          icon: r.tooltip != null
-                              ? Tooltip(child: Icon(r.icon ?? Icons.apps))
-                              : Icon(r.icon ?? Icons.apps),
+                          icon: r.tooltip != null ? Tooltip(child: Icon(r.icon ?? Icons.apps)) : Icon(r.icon ?? Icons.apps),
                           label: Text(r.title ?? ""),
                           disabled: r.disabled ?? false,
                           indicatorColor: r.indicatorColor ?? r.iconColor,

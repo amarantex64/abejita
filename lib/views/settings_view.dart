@@ -8,6 +8,8 @@ class SettingsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MainLayout(child: Center(child: Text("SettingsView")));
+    return MainLayout(
+      child: SafeArea(child: Center(child: Text("SettingsView"))),
+    );
   }
 }

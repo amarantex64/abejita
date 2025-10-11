@@ -8,6 +8,6 @@ class LoansView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MainLayout(child: Center(child: Text("LoansView")));
+    return MainLayout(child: SafeArea(child: Center(child: Text("LoansView"))));
   }
 }

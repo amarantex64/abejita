@@ -1,0 +1,8 @@
+{
+  "editor.fontFamily": "Cascadia Code",
+  "editor.fontLigatures": true,
+  "dart.lineLength": 125,
+  "[dart]": {
+    "editor.rulers": [125]
+  }
+}

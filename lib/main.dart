@@ -24,16 +24,13 @@ class AbejitaApp extends StatelessWidget {
       title: AppConstant.projectName,
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.light,
       navigatorKey: NavigationService.navigatorKey,
       initialRoute: '/',
       getPages: appPagesRoutes,
       builder: (context, child) {
         NavigationService.registerContext(context);
-        return Directionality(
-          textDirection: AppTheme.textDirection,
-          child: child ?? Container(),
-        );
+        return Directionality(textDirection: AppTheme.textDirection, child: child ?? Container());
       },
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
@@ -117,10 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+            Text('$_counter', style: Theme.of(context).textTheme.headlineMedium),
           ],
         ),
       ),

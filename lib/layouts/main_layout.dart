@@ -3,6 +3,7 @@ import 'package:abejita/app_theme.dart';
 import 'package:abejita/routes.dart';
 import 'package:abejita/services/navigation_service.dart';
 import 'package:abejita/widgets/app_notification_drawer.dart';
+import 'package:abejita/widgets/appbar_icon_action.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
 
@@ -11,8 +12,9 @@ class MainLayout extends StatelessWidget {
   final Widget? floatingActionButton;
   final String? title;
   final bool? extendBody;
+  final List<AppbarIconAction>? actions;
 
-  const MainLayout({super.key, required this.child, this.floatingActionButton, this.title, this.extendBody});
+  const MainLayout({super.key, this.actions, required this.child, this.floatingActionButton, this.title, this.extendBody});
 
   @override
   Widget build(BuildContext context) {
@@ -37,18 +39,8 @@ class MainLayout extends StatelessWidget {
         scrolledUnderElevation: 8,
         actionsPadding: EdgeInsets.symmetric(horizontal: 10),
         actions: [
-          Builder(
-            builder: (context) => IconButton(
-              icon: const Icon(LucideIcons.bell),
-              iconSize: 16,
-              style: ButtonStyle(
-                iconColor: WidgetStateProperty.all(Colors.white),
-                backgroundColor: WidgetStateProperty.all(Colors.white.withAlpha(70)),
-              ),
-              tooltip: 'Ver notificaciones',
-              onPressed: () => Scaffold.of(context).openEndDrawer(),
-            ),
-          ),
+          ...?actions?.map((a) => Padding(padding: const EdgeInsets.only(right: 4), child: a)),
+          AppbarIconAction(icon: LucideIcons.bell, onPressed: (context) => Scaffold.of(context).openEndDrawer()),
         ],
       ),
       endDrawer: AppNotificationDrawer(),

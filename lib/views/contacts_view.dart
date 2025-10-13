@@ -37,10 +37,10 @@ class _ContactsViewState extends State<ContactsView> {
         child: Icon(LucideIcons.user_round_plus),
       ),
       actions: [
-        AppbarIconAction(
+        AppbarIconToggleAction(
           icon: LucideIcons.search,
           tooltip: 'Buscar cliente',
-          onPressed: (context) => setState(() => isSearchVisible = !isSearchVisible),
+          onChanged: (context, isChecked) => setState(() => isSearchVisible = isChecked),
         ),
       ],
       child: SafeArea(

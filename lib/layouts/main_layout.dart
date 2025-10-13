@@ -12,7 +12,7 @@ class MainLayout extends StatelessWidget {
   final Widget? floatingActionButton;
   final String? title;
   final bool? extendBody;
-  final List<AppbarIconAction>? actions;
+  final List<Widget>? actions;
 
   const MainLayout({super.key, this.actions, required this.child, this.floatingActionButton, this.title, this.extendBody});
 

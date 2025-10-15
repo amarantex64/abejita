@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:abejita/models/enums.dart';
+import 'package:diacritic/diacritic.dart';
 import 'package:abejita/models/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -123,18 +123,6 @@ extension StringUtil on String {
     }
   }
 
-  String get capitalizeWords {
-    var result = this[0].toUpperCase();
-    for (int i = 1; i < length; i++) {
-      if (this[i - 1] == " ") {
-        result = result + this[i].toUpperCase();
-      } else {
-        result = result + this[i];
-      }
-    }
-    return result;
-  }
-
   String? get nullIfEmpty {
     return isEmpty ? null : this;
   }
@@ -159,6 +147,11 @@ extension StringExtension on String? {
           return word[0].toUpperCase() + word.substring(1).toLowerCase();
         })
         .join(' ');
+  }
+
+  String get normalized {
+    if (this == null) return "";
+    return removeDiacritics(this!);
   }
 
   String? get asCedulaFormat {

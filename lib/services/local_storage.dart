@@ -1,7 +1,9 @@
+import 'package:abejita/models/models.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalStorage {
   static const String _obscureModeKey = "felo";
+  
 
   static SharedPreferences? _preferencesInstance;
 
@@ -20,7 +22,6 @@ class LocalStorage {
     return preferences.clear();
   }
 
-  static set isObscure(bool value) =>
-      preferences.setBool(_obscureModeKey, value);
+  static set isObscure(bool value) => preferences.setBool(_obscureModeKey, value);
   static bool get isObscure => preferences.getBool(_obscureModeKey) ?? false;
 }

@@ -17,6 +17,7 @@ class HomeView extends StatelessWidget {
     final widthMainCard = AppScreen.isWide(context) ? context.width * 0.4 : context.width * 0.45;
 
     return MainLayout(
+      appBarBackground: AppTheme.secondaryColor,
       child: SafeArea(
         child: SingleChildScrollView(
           child: Column(

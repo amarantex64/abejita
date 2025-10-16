@@ -1,20 +1,38 @@
 import 'package:abejita/app_constant.dart';
-import 'package:abejita/app_theme.dart';
 import 'package:abejita/routes.dart';
 import 'package:abejita/services/navigation_service.dart';
+import 'package:abejita/widgets/app_bar_search.dart';
 import 'package:abejita/widgets/app_notification_drawer.dart';
-import 'package:abejita/widgets/appbar_icon_action.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_lucide/flutter_lucide.dart';
 
 class MainLayout extends StatelessWidget {
   final Widget child;
   final Widget? floatingActionButton;
   final String? title;
   final bool? extendBody;
-  final List<Widget>? actions;
+  final List<IconButton>? actions;
+  final PreferredSizeWidget? appBar;
+  final Color? appBarBackground;
+  final TextInputType? keyboardTypeSearch;
+  final ValueChanged<String>? onSearchChanged, onSearchSubmitted;
+  final GestureTapCallback? onSearchTap;
+  final TapRegionCallback? onSearchTapOutside;
 
-  const MainLayout({super.key, this.actions, required this.child, this.floatingActionButton, this.title, this.extendBody});
+  const MainLayout({
+    super.key,
+    this.appBar,
+    this.actions,
+    required this.child,
+    this.floatingActionButton,
+    this.title,
+    this.extendBody,
+    this.appBarBackground,
+    this.onSearchChanged,
+    this.onSearchSubmitted,
+    this.onSearchTapOutside,
+    this.onSearchTap,
+    this.keyboardTypeSearch,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,27 +40,18 @@ class MainLayout extends StatelessWidget {
     final selectedIndex = NavigationService.indexOfRoute;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          spacing: 8,
-          children: [
-            Icon(LucideIcons.coins, size: 20, color: AppTheme.primaryColor),
-            Text(title ?? AppConstant.projectName),
-          ],
-        ),
-        titleTextStyle: Theme.of(
-          context,
-        ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold, color: AppTheme.primaryColor),
-        animateColor: true,
-        backgroundColor: AppTheme.secondaryColor,
-        shadowColor: AppTheme.secondaryColor,
-        scrolledUnderElevation: 8,
-        actionsPadding: EdgeInsets.symmetric(horizontal: 10),
-        actions: [
-          ...?actions?.map((a) => Padding(padding: const EdgeInsets.only(right: 4), child: a)),
-          AppbarIconAction(icon: LucideIcons.bell, onPressed: (context) => Scaffold.of(context).openEndDrawer()),
-        ],
-      ),
+      appBar:
+          appBar ??
+          AppBarSearch(
+            title: title ?? "Búsqueda",
+            onTap: onSearchTap,
+            onChanged: onSearchChanged,
+            onSubmitted: onSearchSubmitted,
+            onTapOutside: onSearchTapOutside,
+            backgroundColor: appBarBackground,
+            keyboardType: keyboardTypeSearch,
+            actions: actions,
+          ),
       endDrawer: AppNotificationDrawer(),
       floatingActionButton: floatingActionButton,
       extendBody: extendBody ?? true,

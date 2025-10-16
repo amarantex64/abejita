@@ -8,8 +8,8 @@ class SearchHistoryService {
   static Future<bool> clearLoans() => LocalStorage.preferences.remove(_loanSearchHistoryKey);
   static Future<bool> clearClients() => LocalStorage.preferences.remove(_clientSearchHistoryKey);
 
-  static Set<HistoryItem> getClients() =>
-      LocalStorage.preferences.getStringList(_clientSearchHistoryKey)?.map((e) => HistoryItem.fromString(e)).toSet() ?? {};
+  static List<HistoryItem> getClients() =>
+      LocalStorage.preferences.getStringList(_clientSearchHistoryKey)?.map((e) => HistoryItem.fromString(e)).toList() ?? [];
 
   static Future<bool> addClient(HistoryItem? client) {
     if (client == null) {
@@ -17,16 +17,14 @@ class SearchHistoryService {
     }
 
     final collection = getClients();
-    if (collection.contains(client)) {
-      return Future.value(false);
-    }
-    collection.add(HistoryItem(client.id, client.title));
+    collection.removeWhere((e) => e.id == client.id);
+    collection.insert(0, HistoryItem(client.id, client.title));
 
     return LocalStorage.preferences.setStringList(_clientSearchHistoryKey, collection.map((e) => e.toText()).toList());
   }
 
-  static Set<HistoryItem> getLoans() =>
-      LocalStorage.preferences.getStringList(_loanSearchHistoryKey)?.map((e) => HistoryItem.fromString(e)).toSet() ?? {};
+  static List<HistoryItem> getLoans() =>
+      LocalStorage.preferences.getStringList(_loanSearchHistoryKey)?.map((e) => HistoryItem.fromString(e)).toList() ?? [];
 
   static Future<bool> addLoan(HistoryItem? loan) {
     if (loan == null) {
@@ -34,7 +32,8 @@ class SearchHistoryService {
     }
 
     final collection = getLoans();
-    collection.add(HistoryItem(loan.id, loan.title));
+    collection.removeWhere((e) => e.id == loan.id);
+    collection.insert(0, HistoryItem(loan.id, loan.title));
 
     return LocalStorage.preferences.setStringList(_loanSearchHistoryKey, collection.map((e) => e.toText()).toList());
   }

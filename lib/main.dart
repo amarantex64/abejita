@@ -24,7 +24,7 @@ class AbejitaApp extends StatelessWidget {
       title: AppConstant.projectName,
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
-      themeMode: ThemeMode.light,
+      themeMode: ThemeMode.dark,
       navigatorKey: NavigationService.navigatorKey,
       initialRoute: '/',
       getPages: appPagesRoutes,

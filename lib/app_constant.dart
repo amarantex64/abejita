@@ -11,7 +11,8 @@ class AppConstant {
 
 class AppScreen {
   static const int animationDuration = 400;
+  static const double maxMobileWidth = 600;
   static const double standardPadding = 16.0;
   static final BorderRadius borderRadius = BorderRadius.circular(standardPadding);
-  static bool isWide(BuildContext context) => MediaQuery.of(context).size.width >= 600;
+  static bool isWide(BuildContext context) => MediaQuery.of(context).size.width >= maxMobileWidth;
 }

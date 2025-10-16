@@ -5,7 +5,6 @@ import 'package:abejita/services/search_history_service.dart';
 import 'package:abejita/utils/utils.dart';
 import 'package:abejita/views/dialogs/new_client_dialog.dart';
 import 'package:abejita/views/searches/client_search_delegate.dart';
-import 'package:abejita/widgets/appbar_icon_action.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
 
@@ -18,6 +17,16 @@ class ContactsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return MainLayout(
       title: "Clientes",
+      onSearchTap: () async {
+        final history = await showSearch(context: context, delegate: ClientSearchDelegate());
+        await SearchHistoryService.addClient(history);
+      },
+      onSearchChanged: (value) async {
+        if (value.isNotEmpty) {
+          final history = await showSearch(context: context, query: value, delegate: ClientSearchDelegate());
+          await SearchHistoryService.addClient(history);
+        }
+      },
       floatingActionButton: FloatingActionButton(
         hoverElevation: 5,
         child: Icon(LucideIcons.user_round_plus),
@@ -28,19 +37,13 @@ class ContactsView extends StatelessWidget {
           );
         },
       ),
-      actions: [
-        AppbarIconAction(
-          icon: LucideIcons.search,
-          tooltip: 'Buscar cliente',
-          onPressed: (context) async {
-            final history = await showSearch(context: context, delegate: ClientSearchDelegate());
-            await SearchHistoryService.addClient(history);
-          },
-        ),
-      ],
       child: SafeArea(
         child: ListView.separated(
-          padding: const EdgeInsets.all(AppScreen.standardPadding),
+          padding: const EdgeInsets.only(
+            right: AppScreen.standardPadding,
+            left: AppScreen.standardPadding,
+            bottom: AppScreen.standardPadding,
+          ),
           itemCount: usersDatabase.length,
           separatorBuilder: (_, _) => const SizedBox(height: 2),
           itemBuilder: (context, index) {

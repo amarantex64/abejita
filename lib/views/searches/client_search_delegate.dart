@@ -3,7 +3,7 @@ import 'package:abejita/models/ui.dart';
 import 'package:abejita/models/samples.dart';
 import 'package:abejita/services/search_history_service.dart';
 import 'package:abejita/utils/utils.dart';
-import 'package:abejita/widgets/nofound_element.dart';
+import 'package:abejita/widgets/iconed_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
 
@@ -24,13 +24,13 @@ class ClientSearchDelegate extends SearchDelegate<HistoryItem?> {
   @override
   Widget buildSuggestions(BuildContext context) {
     if (query.isEmpty) {
-      ValueNotifier<Set<HistoryItem>> historyList = ValueNotifier(SearchHistoryService.getClients());
+      var historyList = ValueNotifier(SearchHistoryService.getClients());
 
       return historyList.value.isEmpty
           ? Center(
-              child: NofoundElement(icon: LucideIcons.search, title: "Ingrese un criterio de búsqueda"),
+              child: IconedTitle(icon: LucideIcons.search, title: "Ingrese un criterio de búsqueda"),
             )
-          : ValueListenableBuilder<Set<HistoryItem>>(
+          : ValueListenableBuilder(
               valueListenable: historyList,
               builder: (context, values, _) => ListView(
                 padding: const EdgeInsets.all(AppScreen.standardPadding),
@@ -44,7 +44,7 @@ class ClientSearchDelegate extends SearchDelegate<HistoryItem?> {
                       child: ElevatedButton(
                         onPressed: () async {
                           await SearchHistoryService.clearClients();
-                          historyList.value = {};
+                          historyList.value = [];
                         },
                         child: Text("Limpiar historial"),
                       ),
@@ -64,7 +64,7 @@ class ClientSearchDelegate extends SearchDelegate<HistoryItem?> {
           );
 
     return query.isNotEmpty && results.isEmpty
-        ? Center(child: NofoundElement(icon: LucideIcons.user_search))
+        ? Center(child: IconedTitle(icon: LucideIcons.user_search))
         : ListView.separated(
             padding: const EdgeInsets.all(AppScreen.standardPadding),
             itemCount: results.length,

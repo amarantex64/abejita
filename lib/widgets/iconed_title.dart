@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class NofoundElement extends StatelessWidget {
+class IconedTitle extends StatelessWidget {
   final IconData icon;
   final String? title;
 
-  const NofoundElement({required this.icon, this.title, super.key});
+  const IconedTitle({required this.icon, this.title, super.key});
 
   @override
   Widget build(BuildContext context) {

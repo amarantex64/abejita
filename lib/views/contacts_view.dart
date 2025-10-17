@@ -17,6 +17,7 @@ class ContactsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return MainLayout(
       title: "Clientes",
+      preventFocusOnSearchTap: true,
       onSearchTap: () async {
         final history = await showSearch(context: context, delegate: ClientSearchDelegate());
         await SearchHistoryService.addClient(history);

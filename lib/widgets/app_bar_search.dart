@@ -5,6 +5,7 @@ import 'package:flutter_lucide/flutter_lucide.dart';
 class AppBarSearch extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final double elevation;
+  final bool preventFocusOnTap;
   final TextInputType? keyboardType;
   final TextStyle? titleStyle, hintStyle;
   final Iterable<IconButton>? actions;
@@ -28,6 +29,7 @@ class AppBarSearch extends StatelessWidget implements PreferredSizeWidget {
     this.onChanged,
     this.onSubmitted,
     this.onTapOutside,
+    this.preventFocusOnTap = true,
   });
 
   @override
@@ -35,9 +37,20 @@ class AppBarSearch extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (preventFocusOnTap && onTap != null) {
+      FocusScope.of(context).unfocus();
+    }
+
     return Container(
       color: backgroundColor,
-      padding: const EdgeInsets.all(AppScreen.standardPadding),
+      padding: AppConstant.isWeb || AppConstant.isDesktop
+          ? const EdgeInsets.all(AppScreen.standardPadding)
+          : const EdgeInsets.only(
+              top: 40,
+              left: AppScreen.standardPadding,
+              right: AppScreen.standardPadding,
+              bottom: AppScreen.standardPadding,
+            ),
       child: SearchBar(
         autoFocus: false,
         constraints: const BoxConstraints(

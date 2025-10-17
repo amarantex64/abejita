@@ -10,6 +10,7 @@ class MainLayout extends StatelessWidget {
   final Widget? floatingActionButton;
   final String? title;
   final bool? extendBody;
+  final bool preventFocusOnSearchTap;
   final List<IconButton>? actions;
   final PreferredSizeWidget? appBar;
   final Color? appBarBackground;
@@ -32,6 +33,7 @@ class MainLayout extends StatelessWidget {
     this.onSearchTapOutside,
     this.onSearchTap,
     this.keyboardTypeSearch,
+    this.preventFocusOnSearchTap = false
   });
 
   @override
@@ -43,14 +45,15 @@ class MainLayout extends StatelessWidget {
       appBar:
           appBar ??
           AppBarSearch(
-            title: title ?? "Búsqueda",
+            actions: actions,
             onTap: onSearchTap,
+            title: title ?? "Búsqueda",
             onChanged: onSearchChanged,
             onSubmitted: onSearchSubmitted,
             onTapOutside: onSearchTapOutside,
-            backgroundColor: appBarBackground,
             keyboardType: keyboardTypeSearch,
-            actions: actions,
+            backgroundColor: appBarBackground,
+            preventFocusOnTap: preventFocusOnSearchTap,
           ),
       endDrawer: AppNotificationDrawer(),
       floatingActionButton: floatingActionButton,

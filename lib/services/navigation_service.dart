@@ -1,3 +1,4 @@
+import 'package:abejita/app_constant.dart';
 import 'package:abejita/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,7 +23,13 @@ class NavigationService {
 
   static int get indexOfRoute => getIndexFromRouteName(Get.currentRoute);
 
-  static int getIndexFromRouteName(String name) => appPagesRoutes.indexWhere((r) => r.name == name);
+  static int getIndexFromRouteName(String name) {
+    final index = AppConstant.isMobile
+        ? appPagesRoutes.indexWhere((r) => r.name == (name.isEmpty ? Get.previousRoute : name))
+        : appPagesRoutes.indexWhere((r) => r.name == name);
+
+    return index < 0 ? 0 : index;
+  }
 }
 
 class AppPageNavigation extends GetPage {

@@ -9,11 +9,11 @@ import 'package:abejita/widgets/list_view_element.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
 
-class ContactsView extends StatelessWidget {
-  static const String routeName = '/contacts';
-  static const String title = 'Clientes';
+class ProvidersView extends StatelessWidget {
+  static const String routeName = '/providers';
+  static const String title = 'Prestadores';
 
-  const ContactsView({super.key});
+  const ProvidersView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,16 +30,6 @@ class ContactsView extends StatelessWidget {
           await SearchHistoryService.addClient(history);
         }
       },
-      floatingActionButton: FloatingActionButton(
-        hoverElevation: 5,
-        child: Icon(LucideIcons.user_round_plus),
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (context) => const Dialog.fullscreen(backgroundColor: Colors.amber, child: NewClientDialog()),
-          );
-        },
-      ),
       child: SafeArea(
         child: ListView.separated(
           padding: const EdgeInsets.only(
@@ -47,16 +37,16 @@ class ContactsView extends StatelessWidget {
             left: AppScreen.standardPadding,
             bottom: AppScreen.standardPadding,
           ),
-          itemCount: usersDatabase.length,
+          itemCount: providersDatabase.length,
           separatorBuilder: (_, _) => const SizedBox(height: 2),
           itemBuilder: (context, index) {
-            final user = usersDatabase[index];
+            final provider = providersDatabase[index];
 
             return ListViewElement(
-              title: "${user.name} ${user.surname}",
-              subtitle: user.id.asCedulaFormat,
-              footer: user.email,
-              avatarUrl: user.avatarUrl,
+              title: provider.fullName,
+              subtitle: provider.whatsAppAccount,
+              footer: provider.email,
+              avatarUrl: provider.avatarUrl,
               modalBottomSheetOptions: [
                 ListTile(
                   leading: const Icon(LucideIcons.pencil),

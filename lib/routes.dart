@@ -2,6 +2,7 @@ import 'package:abejita/services/navigation_service.dart';
 import 'package:abejita/views/contacts_view.dart';
 import 'package:abejita/views/home_view.dart';
 import 'package:abejita/views/loans_view.dart';
+import 'package:abejita/views/providers_view.dart';
 import 'package:abejita/views/settings_view.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:get/get.dart';
@@ -25,7 +26,7 @@ final List<AppPageNavigation> appPagesRoutes = [
     iconColor: Colors.amber,
     name: HomeView.routeName,
     page: () => HomeView(),
-    title: "Resumen",
+    title: HomeView.title,
     maintainState: false,
     preventDuplicates: true,
   ),
@@ -34,7 +35,16 @@ final List<AppPageNavigation> appPagesRoutes = [
     iconColor: Colors.purple,
     name: LoansView.routeName,
     page: () => LoansView(),
-    title: "Préstamos",
+    title: LoansView.title,
+    maintainState: false,
+    preventDuplicates: true,
+  ),
+  AppPageNavigation(
+    icon: LucideIcons.briefcase_business,
+    iconColor: Colors.blue,
+    name: ProvidersView.routeName,
+    page: () => ProvidersView(),
+    title: ProvidersView.title,
     maintainState: false,
     preventDuplicates: true,
   ),
@@ -43,7 +53,7 @@ final List<AppPageNavigation> appPagesRoutes = [
     iconColor: Colors.green,
     name: ContactsView.routeName,
     page: () => ContactsView(),
-    title: "Clientes",
+    title: ContactsView.title,
     maintainState: false,
     preventDuplicates: true,
   ),
@@ -52,7 +62,7 @@ final List<AppPageNavigation> appPagesRoutes = [
     iconColor: Colors.deepOrange,
     name: SettingsView.routeName,
     page: () => SettingsView(),
-    title: "Ajustes",
+    title: SettingsView.title,
     maintainState: false,
     preventDuplicates: true,
   ),

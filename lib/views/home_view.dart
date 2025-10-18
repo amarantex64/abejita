@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 
 class HomeView extends StatelessWidget {
   static const String routeName = '/';
+  static const String title = 'Resumen';
 
   const HomeView({super.key});
 
@@ -17,6 +18,9 @@ class HomeView extends StatelessWidget {
     final widthMainCard = AppScreen.isWide(context) ? context.width * 0.4 : context.width * 0.45;
 
     return MainLayout(
+      title: "TuCapital",
+      onSearchTap: () {},
+      preventFocusOnSearchTap: true,
       appBarBackground: AppTheme.secondaryColor,
       child: SafeArea(
         child: SingleChildScrollView(

@@ -17,7 +17,7 @@ class LoanSimulator extends StatefulWidget {
 }
 
 class _LoanSimulatorState extends State<LoanSimulator> {
-  var paymentFrecuencySelected = PaymentFrequency.weekly;
+  var termTypeSelected = LoanTermType.weekly;
   int paymentTermSelected = 1;
   bool isAnualRate = false;
   bool isSimulatorVisible = true;
@@ -58,37 +58,24 @@ class _LoanSimulatorState extends State<LoanSimulator> {
               initialValue: paymentTermSelected.toDouble(),
               showValueText: true,
               prefixValueText: "Plazo: ",
-              suffixValueText: " ${paymentFrecuencySelected.suffixLabel.toLowerCase()}",
-              max: paymentFrecuencySelected.numberForSlider,
+              suffixValueText: " ${termTypeSelected.suffixLabel.toLowerCase()}",
+              max: termTypeSelected.numberForSlider,
               onChanged: (value) => setState(() => paymentTermSelected = value.toInt()),
             ),
           ),
           Center(
-            child: SegmentedOptionsButtons<PaymentFrequency>(
-              initialValue: paymentFrecuencySelected,
-              onChanged: (value) => setState(() => paymentFrecuencySelected = value),
+            child: SegmentedOptionsButtons<LoanTermType>(
+              initialValue: termTypeSelected,
+              onChanged: (value) => setState(() => termTypeSelected = value),
               items: [
-                SegmentedOptionsItem(value: PaymentFrequency.daily, label: PaymentFrequency.daily.asName()),
-                SegmentedOptionsItem(value: PaymentFrequency.weekly, label: PaymentFrequency.weekly.asName()),
-                SegmentedOptionsItem(value: PaymentFrequency.biweekly, label: PaymentFrequency.biweekly.asName()),
-                SegmentedOptionsItem(value: PaymentFrequency.monthly, label: PaymentFrequency.monthly.asName()),
+                SegmentedOptionsItem(value: LoanTermType.daily, label: LoanTermType.daily.asName()),
+                SegmentedOptionsItem(value: LoanTermType.weekly, label: LoanTermType.weekly.asName()),
+                SegmentedOptionsItem(value: LoanTermType.biweekly, label: LoanTermType.biweekly.asName()),
+                SegmentedOptionsItem(value: LoanTermType.monthly, label: LoanTermType.monthly.asName()),
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 10, bottom: 5),
-            child: AppSlider(
-              min: 0,
-              max: 45,
-              showValueText: true,
-              prefixValueText: "Tasa: ",
-              suffixValueText: '%',
-              initialValue: paymentRateSelected,
-              increments: 5,
-              showLabel: false,
-              onChanged: (value) => setState(() => paymentRateSelected = value),
-            ),
-          ),
+          const SizedBox(height: 8),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -96,15 +83,21 @@ class _LoanSimulatorState extends State<LoanSimulator> {
               Switch.adaptive(value: isAnualRate, onChanged: (value) => setState(() => isAnualRate = value)),
             ],
           ),
-          const SizedBox(height: 8),
+          const Padding(padding: EdgeInsets.only(top: 10, bottom: 5), child: Text("Tasa")),
+          NumberField(
+            initialValue: paymentRateSelected,
+            hintText: "0.00",
+            min: 1,
+            needDecimal: true,
+            increment: 0.1,
+            onChanged: (value) => setState(() => paymentRateSelected = value),
+          ),
+          const SizedBox(height: 16),
           Center(
             child: Container(
               constraints: const BoxConstraints(maxWidth: 350),
               height: 150,
-              decoration: BoxDecoration(
-                color: AppTheme.primaryColor.withAlpha(32),
-                borderRadius: AppScreen.borderRadius,
-              ),
+              decoration: BoxDecoration(color: AppTheme.primaryColor.withAlpha(32), borderRadius: AppScreen.borderRadius),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Builder(
@@ -113,20 +106,28 @@ class _LoanSimulatorState extends State<LoanSimulator> {
                       amount: amountSelected,
                       paymentTerm: paymentTermSelected,
                       rate: paymentRateSelected,
+                      isAnualRate: isAnualRate,
+                      termType: termTypeSelected,
                     );
 
                     return Column(
                       children: [
                         Row(
                           children: [
-                            Text("Capital:", style: Theme.of(context).textTheme.bodyLarge),
-                            Expanded(child: Text(data.capital.toStringAsFixed(2), textAlign: TextAlign.end)),
+                            Text(
+                              "Cuota ${termTypeSelected.asName().toLowerCase()}:",
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                            Expanded(child: Text(data.periodPayment.toStringAsFixed(2), textAlign: TextAlign.end)),
                           ],
                         ),
                         Divider(),
                         Row(
                           children: [
-                            Text("Interés:", style: Theme.of(context).textTheme.bodyLarge),
+                            Text(
+                              "Interés ${termTypeSelected.asName().toLowerCase()}:",
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
                             Expanded(child: Text(data.interest.toStringAsFixed(2), textAlign: TextAlign.end)),
                           ],
                         ),
@@ -134,12 +135,12 @@ class _LoanSimulatorState extends State<LoanSimulator> {
                         Row(
                           children: [
                             Text(
-                              "Cuota ${paymentFrecuencySelected.asName().toLowerCase()}:",
+                              "Total a pagar:",
                               style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
                             ),
                             Expanded(
                               child: Text(
-                                data.quota.toStringAsFixed(2),
+                                data.total.toStringAsFixed(2),
                                 textAlign: TextAlign.end,
                                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
                               ),

@@ -1,4 +1,6 @@
 import 'dart:math';
+import 'dart:math' as Math;
+import 'package:abejita/models/enums.dart';
 import 'package:diacritic/diacritic.dart';
 import 'package:abejita/models/ui.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +18,7 @@ extension DoubleExtension on double? {
   }
 
   double get rounded {
-    if (this == null) {
+    if (this == null || this!.isNaN) {
       return 0;
     }
     return (this! * 100).round() / 100;
@@ -294,13 +296,46 @@ extension StringExtension on String? {
 }
 
 class Utils {
-  static LoanEstimate getLoanEstimate({required double amount, required int paymentTerm, required double rate}) {
-    final capital = amount / paymentTerm;
-    final rateValue = rate / 100;
-    final interest = capital * rateValue;
-    final quota = capital + interest;
+  static LoanEstimate getLoanEstimate({
+    required double amount,
+    required int paymentTerm,
+    required LoanTermType termType,
+    required double rate,
+    required bool isAnualRate,
+  }) {
+    final monthlyRate = isAnualRate ? (rate / 100 / 12) : (rate / 100);
+    final totalMonths = switch (termType) {
+      LoanTermType.daily => paymentTerm / 30, //Una estimación
+      LoanTermType.weekly => paymentTerm / 4.345,
+      LoanTermType.biweekly => paymentTerm / 2.173,
+      LoanTermType.monthly => paymentTerm,
+    };
 
-    return LoanEstimate(capital.rounded, interest.rounded, quota.rounded);
+    final monthlyPayment =
+        amount * (monthlyRate * Math.pow(1 + monthlyRate, totalMonths)) / (Math.pow(1 + monthlyRate, totalMonths) - 1);
+    final totalPayment = monthlyPayment * totalMonths;
+
+    double periodPayment, interestPerPeriod;
+    switch (termType) {
+      case LoanTermType.daily:
+        periodPayment = monthlyPayment / 30; // Approximation
+        interestPerPeriod = (amount * monthlyRate) / 30; // Approximation
+        break;
+      case LoanTermType.weekly:
+        periodPayment = monthlyPayment / 4.345; // Approximation
+        interestPerPeriod = (amount * monthlyRate) / 4.345; // Approximation
+        break;
+      case LoanTermType.biweekly:
+        periodPayment = monthlyPayment / 2.173; // Approximation
+        interestPerPeriod = (amount * monthlyRate) / 2.173; // Approximation
+        break;
+      case LoanTermType.monthly:
+        periodPayment = monthlyPayment;
+        interestPerPeriod = amount * monthlyRate;
+        break;
+    }
+
+    return LoanEstimate(totalPayment.rounded, interestPerPeriod.rounded, periodPayment.rounded);
   }
 
   static Future<T> showOverlay<T>(Future<T> Function() asyncFunction) => Get.showOverlay<T>(

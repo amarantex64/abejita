@@ -1,14 +1,14 @@
-enum PaymentFrequency {
+enum LoanTermType {
   daily,
   weekly,
   biweekly,
   monthly;
 
-  static PaymentFrequency fromIndex(int index) {
-    if (index < 0 && index >= PaymentFrequency.values.length) {
+  static LoanTermType fromIndex(int index) {
+    if (index < 0 && index >= LoanTermType.values.length) {
       return daily;
     }
-    return PaymentFrequency.values[index];
+    return LoanTermType.values[index];
   }
 
   String asName() => switch (this) {

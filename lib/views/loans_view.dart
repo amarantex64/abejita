@@ -3,11 +3,15 @@ import 'package:flutter/material.dart';
 
 class LoansView extends StatelessWidget {
   static const String routeName = '/loans';
+  static const String title = 'Préstamos';
 
   const LoansView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MainLayout(child: SafeArea(child: Center(child: Text("LoansView"))));
+    return MainLayout(
+      title: "Búsqueda de ${title.toLowerCase()}",
+      child: SafeArea(child: Center(child: Text("LoansView"))),
+    );
   }
 }

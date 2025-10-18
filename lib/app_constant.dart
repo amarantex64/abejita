@@ -1,5 +1,4 @@
-import 'dart:io';
-import 'package:flutter/foundation.dart' show kIsWeb, kIsWasm;
+import 'package:flutter/foundation.dart' show kIsWeb, kIsWasm, defaultTargetPlatform, TargetPlatform;
 import 'package:flutter/material.dart';
 
 class AppConstant {
@@ -9,9 +8,15 @@ class AppConstant {
 
   static const String appName = 'Abejita';
   static const String projectName = 'TuCapital';
-  static final bool isMobile = Platform.isAndroid || Platform.isFuchsia || Platform.isIOS;
-  static final bool isDesktop = Platform.isWindows || Platform.isMacOS || Platform.isLinux;
   static final bool isWeb = kIsWeb || kIsWasm;
+  static final bool isMobile =
+      defaultTargetPlatform == TargetPlatform.android ||
+      defaultTargetPlatform == TargetPlatform.iOS ||
+      defaultTargetPlatform == TargetPlatform.fuchsia;
+  static final bool isDesktop =
+      defaultTargetPlatform == TargetPlatform.windows ||
+      defaultTargetPlatform == TargetPlatform.macOS ||
+      defaultTargetPlatform == TargetPlatform.linux;
 }
 
 class AppScreen {

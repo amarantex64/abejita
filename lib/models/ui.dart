@@ -1,9 +1,9 @@
 class LoanEstimate {
-  const LoanEstimate(this.capital, this.interest, this.quota);
-  
-  final double capital;
+  const LoanEstimate(this.total, this.interest, this.periodPayment);
+
+  final double total;
   final double interest;
-  final double quota;
+  final double periodPayment;
 }
 
 class ComboboxItem {

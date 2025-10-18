@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class SettingsView extends StatelessWidget {
   static const String routeName = '/settings';
+  static const String title = 'Ajustes';
 
   const SettingsView({super.key});
 

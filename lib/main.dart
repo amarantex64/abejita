@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  LocalStorage.init();
+  await LocalStorage.init();
 
   runApp(const AbejitaApp());
 }
